@@ -14,5 +14,6 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
 
 Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'profile']);
+Route::middleware('auth:sanctum')->put('/profile', [ProfileController::class, 'updateProfile']);
 
 
