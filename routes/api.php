@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\TimelineEntryController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -15,5 +16,7 @@ Route::post('/login', [LoginController::class, 'login']);
 
 Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'profile']);
 Route::middleware('auth:sanctum')->put('/profile', [ProfileController::class, 'updateProfile']);
+
+Route::get('/timeline-entries', [TimelineEntryController::class, 'index']);
 
 
