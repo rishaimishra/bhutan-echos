@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\TimelineEntryController;
 use App\Http\Controllers\Api\EBookController;
 use App\Http\Controllers\Api\AudioClipController;
+use App\Http\Controllers\Api\NotificationController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -24,5 +25,7 @@ Route::get('/ebooks', [EBookController::class, 'index']);
 Route::get('/ebooks/{ebook}', [EBookController::class, 'show']);
 
 Route::get('/audio-clips', [AudioClipController::class, 'index']);
+
+Route::get('/notifications', [NotificationController::class, 'index']);
 
 
