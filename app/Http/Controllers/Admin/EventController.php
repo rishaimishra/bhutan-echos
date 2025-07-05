@@ -36,11 +36,11 @@ class EventController extends Controller
             'title' => 'required|string|max:255',
             // 'icon' => 'required|image|dimensions:width=500,height=500',
             // 'banner_images.*' => 'image',
-            // 'description' => 'required|string',
-            // 'start_date' => 'required|date',
-            // 'end_date' => 'required|date|after_or_equal:start_date',
+            'description' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
         ]);
-        dd($validated);
+        // dd($validated);
 
         // Handle icon upload
         $iconPath = $request->file('icon')->store('events/icons', 'public');
@@ -62,7 +62,7 @@ class EventController extends Controller
             'end_date' => $validated['end_date'],
         ]);
 
-        return redirect()->route('events.index')->with('success', 'Event created successfully.');
+        return redirect()->route('admin.events.index')->with('success', 'Event created successfully.');
     }
 
     /**
@@ -128,7 +128,7 @@ class EventController extends Controller
             'end_date' => $validated['end_date'],
         ]);
 
-        return redirect()->route('events.index')->with('success', 'Event updated successfully.');
+        return redirect()->route('admin.events.index')->with('success', 'Event updated successfully.');
     }
 
     /**
@@ -146,6 +146,6 @@ class EventController extends Controller
             }
         }
         $event->delete();
-        return redirect()->route('events.index')->with('success', 'Event deleted successfully.');
+        return redirect()->route('admin.events.index')->with('success', 'Event deleted successfully.');
     }
 }
