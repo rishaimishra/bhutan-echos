@@ -15,6 +15,9 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/register', [RegisterController::class, 'register']);
+Route::post('/send-signup-mail', [RegisterController::class, 'sendSignupMail']);
+Route::get('/verify-email/{id}', [RegisterController::class, 'emailVerify']);
+
 Route::post('/login', [LoginController::class, 'login']);
 
 Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'profile']);
