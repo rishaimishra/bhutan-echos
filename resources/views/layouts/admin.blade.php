@@ -113,6 +113,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.events.*') ? 'active' : '' }}" href="{{ route('admin.events.index') }}">
+                            <i class="fas fa-video"></i> Event
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.live-questions.*') ? 'active' : '' }}" href="{{ route('admin.live-questions.index') }}">
                             <i class="fas fa-question-circle"></i> Live Questions
                         </a>

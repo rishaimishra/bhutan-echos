@@ -22,6 +22,7 @@ use App\Http\Controllers\EBookController as UserEBookController;
 use App\Http\Controllers\Admin\AuthorSessionController;
 use App\Http\Controllers\Admin\AuthorQuestionController;
 use App\Http\Controllers\AuthorSessionController as UserAuthorSessionController;
+use App\Http\Controllers\Admin\EventController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -91,6 +92,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Author Question routes
     Route::post('author-questions/{author_question}/approve', [AuthorQuestionController::class, 'approve'])->name('author-questions.approve');
     Route::delete('author-questions/{author_question}', [AuthorQuestionController::class, 'destroy'])->name('author-questions.destroy');
+
+    // Event routes
+    Route::resource('events', EventController::class);
 });
 
 Route::middleware(['auth'])->group(function () {
