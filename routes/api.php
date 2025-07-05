@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\EBookController;
 use App\Http\Controllers\Api\AudioClipController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PasswordResetController;
+use App\Http\Controllers\Api\EventController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -36,6 +37,9 @@ Route::get('/notifications', [NotificationController::class, 'index']);
 Route::post('/forgot-password', [PasswordResetController::class, 'forgotPassword']);
 Route::get('/verify-reset-token/{token}', [PasswordResetController::class, 'verifyResetToken']);
 Route::post('reset-password/{token}', [PasswordResetController::class, 'resetPassword']);
+
+Route::get('/events', [EventController::class, 'index']);
+Route::get('/events/{event}', [EventController::class, 'show']);
 
 
 

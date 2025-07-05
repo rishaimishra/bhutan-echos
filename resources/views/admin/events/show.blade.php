@@ -25,7 +25,7 @@
         <strong>Start Date:</strong> {{ $event->start_date }}<br>
         <strong>End Date:</strong> {{ $event->end_date }}
     </div>
-    <a href="{{ route('events.index') }}" class="btn btn-secondary">Back to List</a>
-    <a href="{{ route('events.edit', $event) }}" class="btn btn-warning">Edit</a>
+    <a href="{{ route('admin.events.index') }}" class="btn btn-secondary">Back to List</a>
+    <a href="{{ route('admin.events.edit', $event) }}" class="btn btn-warning">Edit</a>
 </div>
 @endsection 
