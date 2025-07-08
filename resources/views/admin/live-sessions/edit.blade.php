@@ -11,7 +11,7 @@
                     <h3 class="card-title">Edit Live Session</h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.live-sessions.update', $liveSession) }}" method="POST">
+                    <form action="{{ route('admin.live-sessions.update', $liveSession) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
@@ -49,6 +49,26 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="thumbnail" class="form-label">Thumbnail Image</label>
+                            @if($liveSession->thumbnail)
+                                <div class="mb-2">
+                                    <img src="{{ asset('storage/' . $liveSession->thumbnail) }}" alt="Thumbnail" width="100">
+                                </div>
+                            @endif
+                            <input type="file" class="form-control @error('thumbnail') is-invalid @enderror" id="thumbnail" name="thumbnail" accept="image/*">
+                            @error('thumbnail')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="youtube_link" class="form-label">YouTube Link</label>
+                            <input type="text" class="form-control @error('youtube_link') is-invalid @enderror" id="youtube_link" name="youtube_link" value="{{ old('youtube_link', $liveSession->youtube_link) }}">
+                            @error('youtube_link')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="d-flex justify-content-between">

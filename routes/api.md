@@ -9,12 +9,12 @@
 9. submit feebback api for session
 
 
-in timeline-enteries api user name and it's profile image, add isfeatured key in response
+in timeline-enteries api user name and it's profile image, add isfeatured key in response -- discarded
 send-email-otp api
 otp-verify-api - not required
 forgot-password-api
 live-session-list api
-all event list api with filter
+all event list api with filter -- add isfeatured
 
 
 

@@ -26,9 +26,24 @@ class LiveSessionController extends Controller
             'description' => 'required|string',
             'start_time' => 'required|date|after:now',
             'end_time' => 'required|date|after:start_time',
+            'thumbnail' => 'nullable|image',
+            'youtube_link' => 'nullable|string|max:255',
         ]);
 
-        LiveSession::create($validated);
+        // Handle thumbnail upload
+        $thumbnailPath = null;
+        if ($request->hasFile('thumbnail')) {
+            $thumbnailPath = $request->file('thumbnail')->store('live_sessions/thumbnails', 'public');
+        }
+
+        $session = LiveSession::create([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'start_time' => $validated['start_time'],
+            'end_time' => $validated['end_time'],
+            'thumbnail' => $thumbnailPath,
+            'youtube_link' => $validated['youtube_link'] ?? null,
+        ]);
 
         return redirect()->route('admin.live-sessions.index')
             ->with('success', 'Live session created successfully.');
@@ -46,9 +61,28 @@ class LiveSessionController extends Controller
             'description' => 'required|string',
             'start_time' => 'required|date',
             'end_time' => 'required|date|after:start_time',
+            'thumbnail' => 'nullable|image',
+            'youtube_link' => 'nullable|string|max:255',
         ]);
 
-        $liveSession->update($validated);
+        // Handle thumbnail upload
+        $thumbnailPath = $liveSession->thumbnail;
+        if ($request->hasFile('thumbnail')) {
+            // Delete old thumbnail
+            if ($liveSession->thumbnail) {
+                \Storage::disk('public')->delete($liveSession->thumbnail);
+            }
+            $thumbnailPath = $request->file('thumbnail')->store('live_sessions/thumbnails', 'public');
+        }
+
+        $liveSession->update([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'start_time' => $validated['start_time'],
+            'end_time' => $validated['end_time'],
+            'thumbnail' => $thumbnailPath,
+            'youtube_link' => $validated['youtube_link'] ?? null,
+        ]);
 
         return redirect()->route('admin.live-sessions.index')
             ->with('success', 'Live session updated successfully.');

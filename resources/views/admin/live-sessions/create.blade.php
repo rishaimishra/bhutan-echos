@@ -11,7 +11,7 @@
                     <h3 class="card-title">Create New Live Session</h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.live-sessions.store') }}" method="POST">
+                    <form action="{{ route('admin.live-sessions.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
@@ -48,6 +48,21 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="thumbnail" class="form-label">Thumbnail Image</label>
+                            <input type="file" class="form-control @error('thumbnail') is-invalid @enderror" id="thumbnail" name="thumbnail" accept="image/*">
+                            @error('thumbnail')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="youtube_link" class="form-label">YouTube Link</label>
+                            <input type="text" class="form-control @error('youtube_link') is-invalid @enderror" id="youtube_link" name="youtube_link" value="{{ old('youtube_link') }}">
+                            @error('youtube_link')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="d-flex justify-content-between">

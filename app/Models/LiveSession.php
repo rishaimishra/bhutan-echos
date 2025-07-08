@@ -11,6 +11,8 @@ class LiveSession extends Model
         'description',
         'start_time',
         'end_time',
+        'thumbnail',
+        'youtube_link',
     ];
 
     protected $casts = [

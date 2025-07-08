@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\AudioClipController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PasswordResetController;
 use App\Http\Controllers\Api\EventController;
+use App\Http\Controllers\Api\LiveSessionController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -40,6 +41,9 @@ Route::post('reset-password/{token}', [PasswordResetController::class, 'resetPas
 
 Route::get('/events', [EventController::class, 'index']);
 Route::get('/events/{event}', [EventController::class, 'show']);
+
+Route::get('/live-sessions', [LiveSessionController::class, 'index']);
+Route::get('/live-sessions/{liveSession}', [LiveSessionController::class, 'show']);
 
 
 
