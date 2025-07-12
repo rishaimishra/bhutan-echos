@@ -23,6 +23,8 @@ use App\Http\Controllers\Admin\AuthorSessionController;
 use App\Http\Controllers\Admin\AuthorQuestionController;
 use App\Http\Controllers\AuthorSessionController as UserAuthorSessionController;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\LiveQuizController;
+use App\Http\Controllers\Admin\LiveQuizQuestionController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -95,6 +97,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Event routes
     Route::resource('events', EventController::class);
+
+    // Live Quiz routes
+    Route::resource('live-quizzes', LiveQuizController::class);
+    Route::resource('live-quizzes.questions', LiveQuizQuestionController::class);
 });
 
 Route::middleware(['auth'])->group(function () {

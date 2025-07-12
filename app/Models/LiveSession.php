@@ -19,4 +19,9 @@ class LiveSession extends Model
         'start_time' => 'datetime',
         'end_time' => 'datetime',
     ];
+
+    public function liveQuizzes()
+    {
+        return $this->hasMany(LiveQuiz::class);
+    }
 }
