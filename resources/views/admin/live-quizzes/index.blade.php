@@ -34,6 +34,8 @@
                     <td>
                         <a href="{{ route('admin.live-quizzes.show', $quiz) }}" class="btn btn-info btn-sm">View</a>
                         <a href="{{ route('admin.live-quizzes.edit', $quiz) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{{ route('admin.live-quizzes.questions.create', $quiz) }}" class="btn btn-success btn-sm">Create Question</a>
+                        <a href="{{ route('admin.live-quizzes.questions.index', $quiz) }}" class="btn btn-success btn-sm">View Questions</a>
                         <form action="{{ route('admin.live-quizzes.destroy', $quiz) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
