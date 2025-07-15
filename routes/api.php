@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\PasswordResetController;
 use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\LiveSessionController;
 use App\Http\Controllers\Api\LiveQuizController;
+use App\Http\Controllers\Api\LivePollController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -50,6 +51,12 @@ Route::get('/live-quizzes', [\App\Http\Controllers\Api\LiveQuizController::class
 Route::get('/live-quizzes/{id}', [\App\Http\Controllers\Api\LiveQuizController::class, 'show']);
 Route::middleware('auth:sanctum')->post('/live-quizzes/{quiz}/questions/{question}/answer', [\App\Http\Controllers\Api\LiveQuizController::class, 'submitAnswer']);
 Route::middleware('auth:sanctum')->get('/live-quizzes/{quiz}/my-answers', [\App\Http\Controllers\Api\LiveQuizController::class, 'myAnswers']);
+
+// Live Polls API
+Route::get('/live-polls', [LivePollController::class, 'index']);
+Route::get('/live-polls/{id}', [LivePollController::class, 'show']);
+Route::middleware('auth:sanctum')->post('/live-polls/{id}/vote', [LivePollController::class, 'vote']);
+Route::get('/live-polls/{id}/results', [LivePollController::class, 'results']);
 
 
 
