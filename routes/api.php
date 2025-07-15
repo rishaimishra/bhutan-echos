@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\LiveSessionController;
 use App\Http\Controllers\Api\LiveQuizController;
 use App\Http\Controllers\Api\LivePollController;
+use App\Http\Controllers\Api\FeedbackController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -57,6 +58,11 @@ Route::get('/live-polls', [LivePollController::class, 'index']);
 Route::get('/live-polls/{id}', [LivePollController::class, 'show']);
 Route::middleware('auth:sanctum')->post('/live-polls/{id}/vote', [LivePollController::class, 'vote']);
 Route::get('/live-polls/{id}/results', [LivePollController::class, 'results']);
+
+// Feedback API
+Route::get('/feedback', [FeedbackController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/feedback', [FeedbackController::class, 'store']);
+Route::get('/sessions/{sessionId}/feedback', [FeedbackController::class, 'sessionFeedback']);
 
 
 
