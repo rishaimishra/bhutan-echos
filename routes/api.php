@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\LiveQuizController;
 use App\Http\Controllers\Api\LivePollController;
 use App\Http\Controllers\Api\FeedbackController;
 use App\Http\Controllers\Api\MediaController;
+use App\Http\Controllers\Api\LiveQuestionController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -67,6 +68,9 @@ Route::middleware('auth:sanctum')->post('/feedback', [FeedbackController::class,
 Route::get('/sessions/{sessionId}/feedback', [FeedbackController::class, 'sessionFeedback']);
 
 Route::get('/media', [MediaController::class, 'index']);
+
+Route::get('/live-questions', [LiveQuestionController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/live-questions', [LiveQuestionController::class, 'store']);
 
 
 
