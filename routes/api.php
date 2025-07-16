@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\LivePollController;
 use App\Http\Controllers\Api\FeedbackController;
 use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\LiveQuestionController;
+use App\Http\Controllers\Api\QuizController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -71,6 +72,14 @@ Route::get('/media', [MediaController::class, 'index']);
 
 Route::get('/live-questions', [LiveQuestionController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/live-questions', [LiveQuestionController::class, 'store']);
+
+Route::get('/quizzes', [QuizController::class, 'index']);
+Route::get('/quizzes/{id}', [QuizController::class, 'show']);
+Route::middleware('auth:sanctum')->post('/quizzes', [QuizController::class, 'store']);
+Route::middleware('auth:sanctum')->put('/quizzes/{id}', [QuizController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('/quizzes/{id}', [QuizController::class, 'destroy']);
+Route::middleware('auth:sanctum')->post('/quizzes/{id}/submit-answers', [QuizController::class, 'submitAnswers']);
+Route::middleware('auth:sanctum')->get('/quizzes/{id}/my-result', [QuizController::class, 'myResult']);
 
 
 
