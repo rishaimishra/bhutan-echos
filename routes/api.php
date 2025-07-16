@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\LiveSessionController;
 use App\Http\Controllers\Api\LiveQuizController;
 use App\Http\Controllers\Api\LivePollController;
 use App\Http\Controllers\Api\FeedbackController;
+use App\Http\Controllers\Api\MediaController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -34,6 +35,7 @@ Route::get('/ebooks', [EBookController::class, 'index']);
 Route::get('/ebooks/{ebook}', [EBookController::class, 'show']);
 
 Route::get('/audio-clips', [AudioClipController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/audio-clips/{id}/download', [\App\Http\Controllers\Api\AudioClipController::class, 'download']);
 
 Route::get('/notifications', [NotificationController::class, 'index']);
 
@@ -63,6 +65,8 @@ Route::get('/live-polls/{id}/results', [LivePollController::class, 'results']);
 Route::get('/feedback', [FeedbackController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/feedback', [FeedbackController::class, 'store']);
 Route::get('/sessions/{sessionId}/feedback', [FeedbackController::class, 'sessionFeedback']);
+
+Route::get('/media', [MediaController::class, 'index']);
 
 
 
