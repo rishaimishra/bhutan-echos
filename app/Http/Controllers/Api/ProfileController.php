@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -38,5 +39,22 @@ class ProfileController extends Controller
         $user->update($validated);
 
         return response()->json(['message' => 'Profile updated successfully.', 'user' => $user]);
+    }
+
+    public function deleteAccount(Request $request)
+    {
+        $user = $request->user();
+        $request->validate([
+            'password' => 'required|string',
+        ]);
+        if (!Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'message' => 'Incorrect password.'
+            ], 403);
+        }
+        $user->delete();
+        return response()->json([
+            'message' => 'Your account has been deleted successfully.'
+        ]);
     }
 } 
