@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\FeedbackController;
 use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\LiveQuestionController;
 use App\Http\Controllers\Api\QuizController;
+use App\Http\Controllers\Api\UserReportController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -80,6 +81,8 @@ Route::middleware('auth:sanctum')->put('/quizzes/{id}', [QuizController::class, 
 Route::middleware('auth:sanctum')->delete('/quizzes/{id}', [QuizController::class, 'destroy']);
 Route::middleware('auth:sanctum')->post('/quizzes/{id}/submit-answers', [QuizController::class, 'submitAnswers']);
 Route::middleware('auth:sanctum')->get('/quizzes/{id}/my-result', [QuizController::class, 'myResult']);
+
+Route::middleware('auth:sanctum')->post('/user-reports', [UserReportController::class, 'store']);
 
 
 

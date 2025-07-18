@@ -31,6 +31,12 @@ class LoginController extends Controller
             ], 401);
         }
 
+        if ($user->blocked) {
+            return response()->json([
+                'message' => 'Your account has been blocked. Please contact support.'
+            ], 403);
+        }
+
         // If Sanctum is installed, generate a token
         if (method_exists($user, 'createToken')) {
             $token = $user->createToken('api_token')->plainTextToken;

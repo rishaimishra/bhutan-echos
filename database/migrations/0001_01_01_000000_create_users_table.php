@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('social_id')->nullable();
             $table->enum('role', ['user', 'admin'])->default('user');
+            $table->boolean('blocked')->default(false);
             $table->timestamps();
         });
 

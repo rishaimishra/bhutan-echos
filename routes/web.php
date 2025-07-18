@@ -27,6 +27,9 @@ use App\Http\Controllers\Admin\LiveQuizController;
 use App\Http\Controllers\Admin\LiveQuizQuestionController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/privacy', function () {
+    return view('privacy');
+});
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -101,6 +104,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Live Quiz routes
     Route::resource('live-quizzes', LiveQuizController::class);
     Route::resource('live-quizzes.questions', LiveQuizQuestionController::class);
+
+    // User Reports
+    Route::get('user-reports', [\App\Http\Controllers\Admin\UserReportController::class, 'index'])->name('user-reports.index');
+    Route::post('user-reports/{user}/block', [\App\Http\Controllers\Admin\UserReportController::class, 'block'])->name('user-reports.block');
+    Route::post('user-reports/{user}/unblock', [\App\Http\Controllers\Admin\UserReportController::class, 'unblock'])->name('user-reports.unblock');
 });
 
 Route::middleware(['auth'])->group(function () {

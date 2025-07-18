@@ -211,6 +211,13 @@
                             <p>Live Quizzes</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.user-reports.index') }}"
+                            class="nav-link {{ request()->routeIs('admin.user-reports.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-flag"></i>
+                            <p>User Reports</p>
+                        </a>
+                    </li>
                     <a class="nav-link" href="{{ route('home') }}">
                         <i class="fas fa-home"></i> Back to Site
                     </a>
