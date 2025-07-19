@@ -30,6 +30,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/privacy', function () {
     return view('privacy');
 });
+Route::get('/delete-account', function () {
+    return view('delete_account');
+});
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
