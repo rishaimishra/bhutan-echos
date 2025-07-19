@@ -16,12 +16,10 @@
     <div class="container">
         <h1>Delete Your Account</h1>
         <p>
-            If you wish to delete your Bhutan Echos account, please follow these steps:
+            If you wish to delete your Bhutan Echoes account, please follow these steps:
         </p>
         <ol>
-            <li>Open the Bhutan Echos app and log in to your account.</li>
-            <li>Go to your profile/settings page.</li>
-            <li>Select the "Delete Account" option and confirm your choice.</li>
+            <li>Please send email to vikrantsingh.slg@gmail.com with the reason why you want to delete your account from your registered email</li>
         </ol>
         <h2>What happens when you delete your account?</h2>
         <ul>
@@ -34,7 +32,7 @@
             We do not retain any personal data after account deletion, except where required by law.
         </p>
         <div class="note">
-            <strong>Need help?</strong> If you have trouble deleting your account, please contact our support at <a href="mailto:support@echos.srvtechnology.com">support@echos.srvtechnology.com</a>.
+            <strong>Need help?</strong> If you have trouble deleting your account, please contact our support at <a href="mailto:vikrantsingh.slg@gmail.com">producer@bhutanechoes.org</a>.
         </div>
     </div>
 </body>

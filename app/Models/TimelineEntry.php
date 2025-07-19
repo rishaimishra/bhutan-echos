@@ -14,6 +14,7 @@ class TimelineEntry extends Model
         'description',
         'media_type',
         'media_url',
-        'decade'
+        'decade',
+        'user_id',
     ];
 } 

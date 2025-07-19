@@ -33,8 +33,10 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'profile']);
 Route::middleware('auth:sanctum')->put('/profile', [ProfileController::class, 'updateProfile']);
 Route::middleware('auth:sanctum')->delete('/delete-account', [ProfileController::class, 'deleteAccount']);
+Route::middleware('auth:sanctum')->put('/profile-info-update', [ProfileController::class, 'profileInfoUpdate']);
 
 Route::get('/timeline-entries', [TimelineEntryController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/timeline-entries', [TimelineEntryController::class, 'store']);
 Route::get('/ebooks', [EBookController::class, 'index']);
 Route::get('/ebooks/{ebook}', [EBookController::class, 'show']);
 
