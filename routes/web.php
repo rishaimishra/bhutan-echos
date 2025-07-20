@@ -33,6 +33,9 @@ Route::get('/privacy', function () {
 Route::get('/delete-account', function () {
     return view('delete_account');
 });
+Route::get('/csae-declaration', function () {
+    return view('cSAE_Declaration');
+});
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');

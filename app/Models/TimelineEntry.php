@@ -17,4 +17,9 @@ class TimelineEntry extends Model
         'decade',
         'user_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 } 

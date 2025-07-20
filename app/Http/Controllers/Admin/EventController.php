@@ -60,6 +60,7 @@ class EventController extends Controller
             'description' => $validated['description'],
             'start_date' => $validated['start_date'],
             'end_date' => $validated['end_date'],
+            'is_featured' => $request->has('is_featured'),
         ]);
 
         return redirect()->route('admin.events.index')->with('success', 'Event created successfully.');
@@ -126,6 +127,7 @@ class EventController extends Controller
             'description' => $validated['description'],
             'start_date' => $validated['start_date'],
             'end_date' => $validated['end_date'],
+            'is_featured' => $request->has('is_featured'),
         ]);
 
         return redirect()->route('admin.events.index')->with('success', 'Event updated successfully.');

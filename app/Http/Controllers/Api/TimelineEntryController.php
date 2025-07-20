@@ -10,11 +10,13 @@ class TimelineEntryController extends Controller
 {
     public function index()
     {
-        $entries = TimelineEntry::latest()->get();
+        $entries = TimelineEntry::with('user')->latest()->get();
 
-        // Map each entry to update media_url with full URL
+        // Map each entry to update media_url with full URL and include user name and image
         $entries->transform(function ($entry) {
-            $entry->media_url = url($entry->media_url);
+            $entry->media_url = $entry->media_url ? url($entry->media_url) : null;
+            $entry->user_name = $entry->user ? $entry->user->name : null;
+            $entry->user_image = $entry->user && $entry->user->user_image ? url($entry->user->user_image) : null;
             return $entry;
         });
 
@@ -25,7 +27,7 @@ class TimelineEntryController extends Controller
     {
         $user = $request->user();
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'nullable|string|max:255',
             'description' => 'required|string',
             'media_type' => 'required|in:image,video,text',
             'media_url' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi|max:10240',

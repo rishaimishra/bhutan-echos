@@ -45,6 +45,11 @@
     <input type="datetime-local" name="end_date" id="end_date" class="form-control" value="{{ old('end_date', isset($event) ? $event->end_date->format('Y-m-d\TH:i') : '') }}" required>
 </div>
 
+<div class="mb-3 form-check">
+    <input type="checkbox" name="is_featured" id="is_featured" class="form-check-input" value="1" {{ old('is_featured', $event->is_featured ?? false) ? 'checked' : '' }}>
+    <label for="is_featured" class="form-check-label">Featured Event</label>
+</div>
+
 @push('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/2.0.0/trix.min.css" />
 @endpush

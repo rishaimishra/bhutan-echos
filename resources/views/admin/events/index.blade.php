@@ -14,6 +14,7 @@
                 <th>Icon</th>
                 <th>Start Date</th>
                 <th>End Date</th>
+                <th>Featured</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -29,6 +30,13 @@
                     </td>
                     <td>{{ $event->start_date }}</td>
                     <td>{{ $event->end_date }}</td>
+                    <td>
+                        @if($event->is_featured)
+                            <span class="badge bg-success">Yes</span>
+                        @else
+                            <span class="badge bg-secondary">No</span>
+                        @endif
+                    </td>
                     <td>
                         <a href="{{ route('admin.events.show', $event) }}" class="btn btn-info btn-sm">View</a>
                         <a href="{{ route('admin.events.edit', $event) }}" class="btn btn-warning btn-sm">Edit</a>

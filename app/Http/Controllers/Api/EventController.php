@@ -13,6 +13,7 @@ class EventController extends Controller
         $events = Event::latest()->get()->map(function ($event) {
             $event->icon = $event->icon ? asset('storage/' . $event->icon) : null;
             $event->banner_images = $event->banner_images ? array_map(fn($img) => asset('storage/' . $img), $event->banner_images) : [];
+            $event->is_featured = (bool) $event->is_featured;
             return $event;
         });
         return response()->json(['events' => $events]);
@@ -22,6 +23,7 @@ class EventController extends Controller
     {
         $event->icon = $event->icon ? asset('storage/' . $event->icon) : null;
         $event->banner_images = $event->banner_images ? array_map(fn($img) => asset('storage/' . $img), $event->banner_images) : [];
+        $event->is_featured = (bool) $event->is_featured;
         return response()->json(['event' => $event]);
     }
 } 
