@@ -17,17 +17,19 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Session</th>
+                            {{-- <th>Session</th> --}}
+                            <th>Live Event Name</th>
                             <th>Question</th>
                             <th>Asked By</th>
                             <th>Status</th>
                             <th>Created At</th>
-                            <th>Actions</th>
+                            {{-- <th>Actions</th> --}}
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($questions as $question)
                         <tr>
+                            {{-- <td>{{ $question->session->title }}</td> --}}
                             <td>{{ $question->session->title }}</td>
                             <td>{{ Str::limit($question->question, 100) }}</td>
                             <td>{{ $question->user->name }}</td>
@@ -37,7 +39,7 @@
                                 </span>
                             </td>
                             <td>{{ $question->created_at->format('M d, Y H:i') }}</td>
-                            <td>
+                           {{--  <td>
                                 <div class="btn-group" role="group">
                                     <a href="{{ route('admin.live-questions.edit', $question) }}" class="btn btn-sm btn-primary">
                                         <i class="fas fa-edit"></i>
@@ -50,7 +52,7 @@
                                         </button>
                                     </form>
                                 </div>
-                            </td>
+                            </td> --}}
                         </tr>
                         @endforeach
                     </tbody>

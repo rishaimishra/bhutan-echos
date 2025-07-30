@@ -105,6 +105,12 @@
             text-align: left;
         }
     </style>
+    <style>
+     svg {
+        width: 1rem !important; 
+        height: 1rem !important;
+    }
+</style>
 </head>
 
 <body>
@@ -133,19 +139,14 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.live-sessions.*') ? 'active' : '' }}"
                             href="{{ route('admin.live-sessions.index') }}">
-                            <i class="fas fa-video"></i> Live Sessions
+                            <i class="fas fa-video"></i> Live Events
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('admin.events.*') ? 'active' : '' }}"
-                            href="{{ route('admin.events.index') }}">
-                            <i class="fas fa-video"></i> Event
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('admin.live-questions.*') ? 'active' : '' }}"
-                            href="{{ route('admin.live-questions.index') }}">
-                            <i class="fas fa-question-circle"></i> Live Questions
+                        <a href="{{ route('admin.live-quizzes.index') }}"
+                            class="nav-link {{ request()->routeIs('admin.live-quizzes.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-question-circle"></i>
+                            <p>Live Event Quizzes</p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -155,6 +156,19 @@
                             <p>Live Polls</p>
                         </a>
                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.live-questions.*') ? 'active' : '' }}"
+                            href="{{ route('admin.live-questions.index') }}">
+                            <i class="fas fa-question-circle"></i> Live Event Users Questions
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.events.*') ? 'active' : '' }}"
+                            href="{{ route('admin.events.index') }}">
+                            <i class="fas fa-video"></i> Events
+                        </a>
+                    </li>
+                   
                     <li class="nav-item">
                         <a href="{{ route('admin.feedback.index') }}"
                             class="nav-link {{ request()->routeIs('admin.feedback.*') ? 'active' : '' }}">
@@ -169,48 +183,43 @@
                             <p>Notifications</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                   {{--  <li class="nav-item">
                         <a href="{{ route('admin.tributes.index') }}"
                             class="nav-link {{ request()->routeIs('admin.tributes.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-heart"></i>
                             <p>Tribute Wall</p>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a href="{{ route('admin.timeline.index') }}"
                             class="nav-link {{ request()->routeIs('admin.timeline.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-history"></i>
-                            <p>Timeline</p>
+                            <p>Post On Users Timeline</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('admin.audio.index') }}"
                             class="nav-link {{ request()->routeIs('admin.audio.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-music"></i>
-                            <p>Royal Audio Series</p>
+                            {{-- <p>Royal Audio Series</p> --}}
+                            <p>Majesty Timeline</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('admin.ebooks.index') }}"
                             class="nav-link {{ request()->routeIs('admin.ebooks.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-book"></i>
-                            <p>E-Books</p>
+                            <p>Resources</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('admin.quizzes.index') }}"
                             class="nav-link {{ request()->routeIs('admin.quizzes.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-question-circle"></i>
-                            <p>Quizzes</p>
+                            <p>Majesty Quizzes</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route('admin.live-quizzes.index') }}"
-                            class="nav-link {{ request()->routeIs('admin.live-quizzes.*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-question-circle"></i>
-                            <p>Live Quizzes</p>
-                        </a>
-                    </li>
+                    
                     <li class="nav-item">
                         <a href="{{ route('admin.user-reports.index') }}"
                             class="nav-link {{ request()->routeIs('admin.user-reports.*') ? 'active' : '' }}">

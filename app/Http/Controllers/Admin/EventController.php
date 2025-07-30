@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
+use App\Service\FirebaseService;
 
 class EventController extends Controller
 {
@@ -38,7 +40,7 @@ class EventController extends Controller
             // 'banner_images.*' => 'image',
             'description' => 'required|string',
             'start_date' => 'required|date',
-            'end_date' => 'required|date',
+             'end_date' => 'required|date|after_or_equal:start_date',
         ]);
         // dd($validated);
 
@@ -62,6 +64,21 @@ class EventController extends Controller
             'end_date' => $validated['end_date'],
             'is_featured' => $request->has('is_featured'),
         ]);
+
+        $tokens = User::whereNotNull('device_token')->pluck('device_token')->toArray();
+
+        if (!empty($tokens)) {
+            $expoService = new FirebaseService();
+
+            $expoService->sendNotification(
+                $tokens,
+                'New Event: ' . $event->title,
+                'Check out the latest event happening from ' . $event->start_date,
+                [
+                    'event_id' => $event->id
+                ]
+            );
+        }
 
         return redirect()->route('admin.events.index')->with('success', 'Event created successfully.');
     }
@@ -90,6 +107,7 @@ class EventController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'icon' => 'nullable|image|dimensions:width=500,height=500',
+            'icon' => 'nullable|image',
             'banner_images.*' => 'image',
             'description' => 'required|string',
             'start_date' => 'required|date',
@@ -138,6 +156,7 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
+        // dd($event);
         // Delete icon and banners
         if ($event->icon) {
             Storage::disk('public')->delete($event->icon);

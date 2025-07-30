@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\LiveQuizController;
 use App\Http\Controllers\Admin\LiveQuizQuestionController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 Route::get('/privacy', function () {
     return view('privacy');
@@ -33,8 +34,32 @@ Route::get('/privacy', function () {
 Route::get('/delete-account', function () {
     return view('delete_account');
 });
+
+Route::get('/download-apk', function () {
+    $filePath = public_path('downloads/bhutan_echoes.apk');
+
+    if (file_exists($filePath)) {
+        return response()->download($filePath, 'bhutan_echoes.apk', [
+            'Content-Type' => 'application/vnd.android.package-archive',
+        ]);
+    }
+
+    abort(404, 'File not found.');
+});
+
+Route::get('/app-aggrement', function () {
+    return view('app_agreement');
+});
+
+
+Route::post('/delete-account', [AboutController::class, 'deleteAccount'])->name('account.delete');
+
+
 Route::get('/csae-declaration', function () {
     return view('cSAE_Declaration');
+});
+Route::get('/support', function () {
+    return view('support');
 });
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -130,3 +155,17 @@ Route::get('/ebooks/{ebook}/download', [UserEBookController::class, 'download'])
 Route::get('/author-sessions', [UserAuthorSessionController::class, 'index'])->name('author-sessions.index');
 Route::get('/author-sessions/{author_session}', [UserAuthorSessionController::class, 'show'])->name('author-sessions.show');
 Route::post('/author-sessions/{author_session}/questions', [UserAuthorSessionController::class, 'storeQuestion'])->middleware('auth')->name('author-sessions.questions.store');
+
+Route::get('/admin/media/get-input-template', function(Request $request) {
+    $type = $request->query('type');
+    
+    if ($type === 'audio') {
+        return view('admin.audio.audio-input', ['mediaUrls' => []]);
+    } elseif ($type === 'video') {
+        return view('admin.audio.video-input', ['mediaUrls' => []]);
+    } elseif ($type === 'image') {
+        return view('admin.audio.image-input', ['mediaUrls' => []]);
+    }
+    
+    return '';
+})->middleware('admin');

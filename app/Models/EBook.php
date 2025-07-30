@@ -14,6 +14,8 @@ class EBook extends Model
         'author',
         'file_path',
         'format',
+        'cover_image',
+        'type',
     ];
 
     protected $table = 'ebooks';

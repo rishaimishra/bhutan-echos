@@ -9,17 +9,26 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Service\FirebaseService;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
-    public function register(Request $request)
+    public function register(Request $request, FirebaseService $firebase)
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')->whereNull('deleted_at'),
+            ],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'phone' => ['nullable', 'string', 'max:20'],
-        ]);
+            'device_token' => ['nullable', 'string'],
+]);
 
         if ($validator->fails()) {
             return response()->json([
@@ -34,6 +43,7 @@ class RegisterController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'role' => 'user',
+            'device_token'=>@$request->device_token,
         ]);
 
         // If Sanctum is installed, generate a token
@@ -42,6 +52,18 @@ class RegisterController extends Controller
         } else {
             $token = null;
         }
+
+
+          // Send FCM push notification
+          // $allTokens = User::whereNotNull('device_token')->pluck('device_token')->toArray();
+
+          //   if (!empty($allTokens)) {
+          //       foreach (array_chunk($allTokens, 500) as $deviceTokens) {
+          //           $title = 'New User Registered!';
+          //           $body = 'Say hello to ' . $user->name . '';
+          //           $firebase->sendNotification($deviceTokens, $title, $body);
+          //       }
+          //   }
 
         return response()->json([
             'message' => 'User registered successfully.',

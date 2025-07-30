@@ -11,8 +11,10 @@ class AudioClip extends Model
 
     protected $fillable = [
         'title',
-        'audio_url',
-        'release_date'
+        'media_url',
+        'media_type',
+        'release_date',
+        'description',
     ];
 
     protected $casts = [

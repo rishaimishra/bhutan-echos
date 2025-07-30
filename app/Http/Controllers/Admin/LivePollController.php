@@ -81,7 +81,8 @@ class LivePollController extends Controller
     }
 
     public function destroy(LivePoll $livePoll)
-    {
+    {   
+         $livePoll->options()->delete();
         $livePoll->delete();
 
         return redirect()->route('admin.live-polls.index')

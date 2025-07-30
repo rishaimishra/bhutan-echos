@@ -41,10 +41,10 @@
                         </div>
                         <div class="card-body">
                             @if($timeline->media_type === 'image' && $timeline->media_url)
-                                <img src="{{ $timeline->media_url }}" alt="{{ $timeline->title }}" class="img-fluid">
+                                <img src="{{url('/')}}/{{ $timeline->media_url }}" alt="{{ $timeline->title }}" class="img-fluid">
                             @elseif($timeline->media_type === 'video' && $timeline->media_url)
                                 <video controls class="img-fluid">
-                                    <source src="{{ $timeline->media_url }}" type="video/mp4">
+                                    <source src="{{url('/')}}/{{ $timeline->media_url }}" type="video/mp4">
                                     Your browser does not support the video tag.
                                 </video>
                             @else

@@ -24,7 +24,10 @@ class LoginController extends Controller
             ], 422);
         }
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)
+            ->whereNull('deleted_at')
+            ->first();
+
         if (! $user || ! \Hash::check($request->password, $user->password)) {
             return response()->json([
                 'message' => 'Invalid credentials.'
@@ -34,6 +37,12 @@ class LoginController extends Controller
         if ($user->blocked) {
             return response()->json([
                 'message' => 'Your account has been blocked. Please contact support.'
+            ], 403);
+        }
+
+        if ($user->is_verified != '1') {
+            return response()->json([
+                'message' => 'Your account is not verified. Please check your registered email.'
             ], 403);
         }
 

@@ -10,7 +10,7 @@
             <div class="small-box bg-info">
                 <div class="inner">
                     <h3>{{ $stats['total'] }}</h3>
-                    <p>Total Audio Clips</p>
+                    <p>Total Media Clips</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-music"></i>
@@ -44,10 +44,10 @@
     <!-- Audio Clips Table -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Audio Clips</h3>
+            <h3 class="card-title">Media Clips</h3>
             <div class="card-tools">
                 <a href="{{ route('admin.audio.create') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-plus"></i> Add New Audio
+                    <i class="fas fa-plus"></i> Add New Media
                 </a>
             </div>
         </div>
@@ -63,6 +63,7 @@
                         <thead>
                             <tr>
                                 <th>Title</th>
+                                  <th>Media Type</th>
                                 <th>Release Date</th>
                                 <th>Added On</th>
                                 <th>Actions</th>
@@ -72,6 +73,7 @@
                             @foreach($clips as $clip)
                                 <tr>
                                     <td>{{ $clip->title }}</td>
+                                     <td>{{ $clip->media_type }}</td>
                                     <td>{{ $clip->release_date->format('M d, Y') }}</td>
                                     <td>{{ $clip->created_at->format('M d, Y') }}</td>
                                     <td>

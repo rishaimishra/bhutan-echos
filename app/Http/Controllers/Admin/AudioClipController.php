@@ -26,7 +26,7 @@ class AudioClipController extends Controller
         return view('admin.audio.create');
     }
 
-    public function store(Request $request)
+    public function storeOld(Request $request)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -56,7 +56,7 @@ class AudioClipController extends Controller
         return view('admin.audio.form', compact('audio'));
     }
 
-    public function update(Request $request, AudioClip $audio)
+    public function updateOld(Request $request, AudioClip $audio)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -96,4 +96,102 @@ class AudioClipController extends Controller
             ->route('admin.audio.index')
             ->with('success', 'Audio clip deleted successfully.');
     }
+
+
+
+
+
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'media_type' => 'required|in:audio,video,image,text',
+            'media_file' => 'nullable|file|max:10240',
+            'media_files.*' => 'nullable|file|max:10240|image',
+            'release_date' => 'required|date'
+        ]);
+
+        $type = $request->media_type;
+        $validated['media_type'] = $type;
+
+        // Handle file uploads
+        if ($type === 'text') {
+            $validated['media_url'] = null;
+        } elseif ($type === 'image' && $request->hasFile('media_files')) {
+            $paths = [];
+            foreach ($request->file('media_files') as $file) {
+                $paths[] = Storage::url($file->store("media-clips/$type", 'public'));
+            }
+            $validated['media_url'] = json_encode($paths);
+        } elseif ($request->hasFile('media_file')) {
+            $file = $request->file('media_file');
+            $path = $file->store("media-clips/$type", 'public');
+            $validated['media_url'] = Storage::url($path);
+        } elseif ($type !== 'text') {
+            return back()->withErrors(['media_file' => 'Media file is required for this type'])->withInput();
+        }
+
+        AudioClip::create($validated);
+        return redirect()->route('admin.audio.index')->with('success', 'Content created successfully.');
+    }
+
+    public function update(Request $request, AudioClip $audio)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'media_type' => 'required|in:audio,video,image,text',
+            'media_file' => 'nullable|file|max:10240',
+            'media_files.*' => 'nullable|file|max:10240|image',
+            'release_date' => 'required|date'
+        ]);
+
+        $type = $request->media_type;
+        $validated['media_type'] = $type;
+
+        // Handle file uploads
+        if ($type === 'text') {
+            $this->deleteOldMedia($audio);
+            $validated['media_url'] = null;
+        } elseif ($type === 'image' && $request->hasFile('media_files')) {
+            $this->deleteOldMedia($audio);
+            $paths = [];
+            foreach ($request->file('media_files') as $file) {
+                $paths[] = Storage::url($file->store("media-clips/$type", 'public'));
+            }
+            $validated['media_url'] = json_encode($paths);
+        } elseif ($request->hasFile('media_file')) {
+            $this->deleteOldMedia($audio);
+            $path = $request->file('media_file')->store("media-clips/$type", 'public');
+            $validated['media_url'] = Storage::url($path);
+        } elseif ($type !== 'text') {
+            // Keep existing media if not changing
+            $validated['media_url'] = $audio->media_url;
+        }
+
+        $audio->update($validated);
+        return redirect()->route('admin.audio.index')->with('success', 'Content updated successfully.');
+    }
+
+    protected function deleteOldMedia($audio)
+    {
+        if (!$audio->media_url) return;
+
+        if ($audio->media_type === 'image') {
+            $paths = json_decode($audio->media_url, true) ?: [];
+            foreach ($paths as $path) {
+                Storage::disk('public')->delete(str_replace('/storage/', '', $path));
+            }
+        } else {
+            Storage::disk('public')->delete(str_replace('/storage/', '', $audio->media_url));
+        }
+    }
+
+    
+
+    
+
+
 } 

@@ -67,7 +67,7 @@ class QuizController extends Controller
     public function edit(Quiz $quiz)
     {
         $quiz->load('questions');
-        return view('admin.quizzes.edit', compact('quiz'));
+        return view('admin.quizzes.form', compact('quiz'));
     }
 
     public function update(Request $request, Quiz $quiz)

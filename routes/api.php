@@ -31,7 +31,7 @@ Route::get('/verify-email/{id}', [RegisterController::class, 'emailVerify']);
 Route::post('/login', [LoginController::class, 'login']);
 
 Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'profile']);
-Route::middleware('auth:sanctum')->put('/profile', [ProfileController::class, 'updateProfile']);
+Route::middleware('auth:sanctum')->post('/profile', [ProfileController::class, 'updateProfile']);
 Route::middleware('auth:sanctum')->delete('/delete-account', [ProfileController::class, 'deleteAccount']);
 Route::middleware('auth:sanctum')->put('/profile-info-update', [ProfileController::class, 'profileInfoUpdate']);
 
@@ -86,7 +86,6 @@ Route::middleware('auth:sanctum')->post('/quizzes/{id}/submit-answers', [QuizCon
 Route::middleware('auth:sanctum')->get('/quizzes/{id}/my-result', [QuizController::class, 'myResult']);
 
 Route::middleware('auth:sanctum')->post('/user-reports', [UserReportController::class, 'store']);
+Route::get('/all-media', [AudioClipController::class, 'all_media']);
 
-
-
-
+Route::middleware('auth:sanctum')->post('/update-agree', [ProfileController::class, 'update_agree']);

@@ -2,6 +2,7 @@
 
 @section('title', 'Timeline Management')
 
+
 @section('content')
 <div class="container-fluid">
     <!-- Statistics Card -->
@@ -111,9 +112,10 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="mt-4">
-                    {{ $entries->links() }}
-                </div>
+                <div class="mt-4 text-sm pagination">
+    {{ $entries->links() }}
+</div>
+
             @endif
         </div>
     </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\TimelineEntry;
 
 class UserController extends Controller
 {
@@ -34,7 +35,8 @@ class UserController extends Controller
     }
 
     public function destroy(User $user)
-    {
+    {   
+        $dlt=TimelineEntry::where('user_id',$user->id)->delete();
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully');
     }

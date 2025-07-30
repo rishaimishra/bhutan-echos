@@ -13,6 +13,7 @@ class LiveSession extends Model
         'end_time',
         'thumbnail',
         'youtube_link',
+        'is_deleted',
     ];
 
     protected $casts = [

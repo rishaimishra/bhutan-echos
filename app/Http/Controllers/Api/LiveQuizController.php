@@ -6,33 +6,94 @@ use App\Http\Controllers\Controller;
 use App\Models\LiveQuiz;
 use App\Models\LiveQuizResponse;
 use Illuminate\Http\Request;
+use App\Models\LiveQuizQuestion;
 
 class LiveQuizController extends Controller
 {
-    public function index(Request $request)
-    {
-        $user = $request->user();
-        $quizzes = LiveQuiz::with(['questions.answers'])->latest()->get();
-        $quizzes = $quizzes->map(function ($quiz) use ($user) {
-            if ($user) {
-                $right = LiveQuizResponse::where('live_quiz_id', $quiz->id)
-                    ->where('user_id', $user->id)
-                    ->where('is_correct', true)
-                    ->count();
-                $wrong = LiveQuizResponse::where('live_quiz_id', $quiz->id)
-                    ->where('user_id', $user->id)
-                    ->where('is_correct', false)
-                    ->count();
-                $quiz->user_right = $right;
-                $quiz->user_wrong = $wrong;
-            } else {
-                $quiz->user_right = null;
-                $quiz->user_wrong = null;
-            }
-            return $quiz;
-        });
-        return response()->json(['live_quizzes' => $quizzes]);
+    // public function index(Request $request)
+    // {
+    //     $user = $request->user();
+    //     if($request->session_id){
+    //         //chk if question present or not
+    //         $chk=LiveQuizQuestion::where('live_quiz_id',)
+    //         $quizzes = LiveQuiz::with(['questions.answers'])->where('live_session_id',$request->session_id)->latest()->get();
+    //     }else{
+    //      $quizzes = LiveQuiz::with(['questions.answers'])->latest()->get();
+    //     }
+    //     $quizzes = $quizzes->map(function ($quiz) use ($user) {
+    //         if ($user) {
+    //             $right = LiveQuizResponse::where('live_quiz_id', $quiz->id)
+    //                 ->where('user_id', $user->id)
+    //                 ->where('is_correct', true)
+    //                 ->count();
+    //             $wrong = LiveQuizResponse::where('live_quiz_id', $quiz->id)
+    //                 ->where('user_id', $user->id)
+    //                 ->where('is_correct', false)
+    //                 ->count();
+    //             $quiz->user_right = $right;
+    //             $quiz->user_wrong = $wrong;
+    //         } else {
+    //             $quiz->user_right = null;
+    //             $quiz->user_wrong = null;
+    //         }
+    //         return $quiz;
+    //     });
+    //     return response()->json(['live_quizzes' => $quizzes]);
+    // }
+
+public function index(Request $request)
+{
+    $user = $request->user();
+
+    if ($request->session_id) {
+        // Get all quizzes for the session
+        $quizzes = LiveQuiz::with(['questions.answers'])
+            ->where('live_session_id', $request->session_id)
+            ->latest()
+            ->get();
+
+        // Filter out quizzes that have no questions
+        $quizzes = $quizzes->filter(function ($quiz) {
+            return $quiz->questions->isNotEmpty();
+        })->values();
+
+        // If none of the quizzes have questions, return empty array
+        if ($quizzes->isEmpty()) {
+            return response()->json(['live_quizzes' => []]);
+        }
+
+    } else {
+        $quizzes = LiveQuiz::with(['questions.answers'])
+            ->latest()
+            ->get();
     }
+
+    // Add user-specific correct/wrong counts
+    $quizzes = $quizzes->map(function ($quiz) use ($user) {
+        if ($user) {
+            $right = LiveQuizResponse::where('live_quiz_id', $quiz->id)
+                ->where('user_id', $user->id)
+                ->where('is_correct', true)
+                ->count();
+
+            $wrong = LiveQuizResponse::where('live_quiz_id', $quiz->id)
+                ->where('user_id', $user->id)
+                ->where('is_correct', false)
+                ->count();
+
+            $quiz->user_right = $right;
+            $quiz->user_wrong = $wrong;
+        } else {
+            $quiz->user_right = null;
+            $quiz->user_wrong = null;
+        }
+
+        return $quiz;
+    });
+
+    return response()->json(['live_quizzes' => $quizzes]);
+}
+
 
     public function show(Request $request, $id)
     {

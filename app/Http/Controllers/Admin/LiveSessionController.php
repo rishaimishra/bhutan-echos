@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\LiveSession;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Service\FirebaseService;
 
 class LiveSessionController extends Controller
 {
     public function index()
     {
-        $sessions = LiveSession::latest()->get();
+        $sessions = LiveSession::where('is_deleted','0')->latest()->get();
         return view('admin.live-sessions.index', compact('sessions'));
     }
 
@@ -44,6 +46,23 @@ class LiveSessionController extends Controller
             'thumbnail' => $thumbnailPath,
             'youtube_link' => $validated['youtube_link'] ?? null,
         ]);
+
+        $tokens = User::whereNotNull('device_token')->pluck('device_token')->toArray();
+
+        if (!empty($tokens)) {
+            $expoService = new FirebaseService();
+
+            $expoService->sendNotification(
+                $tokens,
+                'New Live Event: ' . $session->title,
+                'Join us live on ' . date('M d, Y h:i A', strtotime($session->start_time)),
+                [
+                    'live_session_id' => $session->id,
+                    'type' => 'live'
+                ]
+            );
+        }
+
 
         return redirect()->route('admin.live-sessions.index')
             ->with('success', 'Live session created successfully.');
@@ -90,7 +109,7 @@ class LiveSessionController extends Controller
 
     public function destroy(LiveSession $liveSession)
     {
-        $liveSession->delete();
+        $liveSession->update(['is_deleted'=>1]);
 
         return redirect()->route('admin.live-sessions.index')
             ->with('success', 'Live session deleted successfully.');

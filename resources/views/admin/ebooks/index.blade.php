@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'E-Books Management')
+@section('title', 'Resources Management')
 
 @section('content')
 <div class="container-fluid">
@@ -8,9 +8,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="card-title">E-Books</h3>
+                    <h3 class="card-title">Resources</h3>
                     <a href="{{ route('admin.ebooks.create') }}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Add E-Book
+                        <i class="fas fa-plus"></i> Add Resources
                     </a>
                 </div>
                 <div class="card-body">
@@ -47,7 +47,7 @@
                                                 <a href="{{ route('admin.ebooks.edit', $ebook) }}" class="btn btn-primary btn-sm">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <form action="{{ route('admin.ebooks.destroy', $ebook) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this e-book?');">
+                                                <form action="{{ route('admin.ebooks.destroy', $ebook) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this Resources?');">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm">
@@ -65,7 +65,7 @@
                         </div>
                     @else
                         <div class="alert alert-info text-center mb-0">
-                            No e-books found. Click "Add E-Book" to upload your first e-book.
+                            No Resources found. Click "Add Resources" to upload your first Resources.
                         </div>
                     @endif
                 </div>
